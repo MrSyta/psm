@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+        <style>
+            table, th, td {
+            width: 50%;
+            padding: 10px;
+            border: 1px solid black; 
+            border-collapse: collapse;
+            margin:auto;
+            }
+          </style>
+    </head>
+    <body>
+        <div id="a">
+            <table id="table">
+                <thead>
+                  <tr>
+                    <th>isbn</th>
+                    <th>gatunek literacki</th>
+                    <th>imie autora</th>
+                    <th>nazwisko autora</th>
+                    <th>rok wydania</th>
+                    <th>tytuł książki</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+        </div>  
+        <script>
+          var firebaseConfig = {
+            apiKey: "AIzaSyAmBQmiMtNf9frACWdgnUaruiKhks4IGrg",
+            authDomain: "pierwszy-5371c.firebaseapp.com",
+            databaseURL: "https://pierwszy-5371c.firebaseio.com",
+            projectId: "pierwszy-5371c",
+            storageBucket: "pierwszy-5371c.appspot.com",
+            messagingSenderId: "230865817750",
+            appId: "1:230865817750:web:9082da017038523e5732b7",
+            measurementId: "G-NWM1NZ7RZL"
+          };
+
+          firebase.initializeApp(firebaseConfig);
+          var db = firebase.firestore();
+
+          const outputData = document.getElementById("a")
+
+          db.collection("książki").get().then(function(querySnapshot) {
+            querySnapshot.forEach(function(book) {
+                let tableRef = document.getElementById("table").getElementsByTagName("tbody")[0]
+                let newRow = tableRef.insertRow()
+                for(key in book.data()){
+                    let newCell = newRow.insertCell()
+                    let newValue = document.createTextNode(book.data()[key])
+                    newCell.appendChild(newValue)
+              }
+    });
+});
+</script>
+    </body>
+</html>

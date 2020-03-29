@@ -1,0 +1,79 @@
+<html>
+    <head>
+        <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+    </head>
+    <body>
+        <div id="a">
+            <h4>Tytuł książki</h4>
+            <input type="textfield" id="title" />
+
+            <h4>Imię autora</h4>
+            <input type="textfield" id="name" />
+            
+            <h4>Nazwisko autora </h4>
+            <input type="textfield" id="surname" />
+            
+            <h4>Gatunek literacki</h4>
+            <input type="textfield" id="genre" />
+            
+            <h4>Rok wydania</h4>
+            <input type="textfield" id="year" />
+            
+            <h4>ISBN</h4>
+            <input type="textfield" id="isbn" />
+            </br><br>
+            <button id="button">Save</button>
+
+        </div>  
+        <script>
+          // Your web app's Firebase configuration
+          var firebaseConfig = {
+            apiKey: "AIzaSyAmBQmiMtNf9frACWdgnUaruiKhks4IGrg",
+            authDomain: "pierwszy-5371c.firebaseapp.com",
+            databaseURL: "https://pierwszy-5371c.firebaseio.com",
+            projectId: "pierwszy-5371c",
+            storageBucket: "pierwszy-5371c.appspot.com",
+            messagingSenderId: "230865817750",
+            appId: "1:230865817750:web:9082da017038523e5732b7",
+            measurementId: "G-NWM1NZ7RZL"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+          var db = firebase.firestore();
+
+          button.addEventListener("click", function() {
+              const titleSave = document.getElementById("title").value
+              const nameSave =  document.getElementById("name").value
+              const surnameSave = document.getElementById("surname").value
+              const genreSave = document.getElementById("genre").value
+              const yearSave = document.getElementById("year").value
+              const isbnSave = document.getElementById("isbn").value
+
+              db.collection("książki").add({
+                  tytulKsiazki: titleSave,
+                  imieAutora: nameSave,
+                  nazwiskoAutora: surnameSave,
+                  gatunekLiteracki: genreSave,
+                  rokWydania: Number(yearSave),
+                  ISBN: Number(isbnSave)
+              }).then(function(newDoc) {
+                docRef = db.doc(`książki/${newDoc.id}`);
+                docRef.get().then(function (doc) {
+                if (doc && doc.exists) {
+                    const myData = doc.data()
+                    for(key in myData){
+                        let tag = document.createElement("p")
+                        let text = document.createTextNode(`${key}: ${myData[key]}`)
+                        tag.appendChild(text)
+                        let element = document.getElementById("a")
+                        element.appendChild(tag)
+              }}
+   }
+    );
+              })
+          })
+</script>
+    </body>
+</html>

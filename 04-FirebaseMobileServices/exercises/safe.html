@@ -1,0 +1,60 @@
+<html>
+    <head>
+        <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.13.0/firebase-firestore.js"></script>
+
+    </head>
+    <body>
+        <div id="a">
+            <input type="button" value="save this" onclick="saveThis()">
+
+        </div>
+        <script>
+                var firebaseConfig = {
+                    apiKey: "AIzaSyAmBQmiMtNf9frACWdgnUaruiKhks4IGrg",
+                    authDomain: "pierwszy-5371c.firebaseapp.com",
+                    databaseURL: "https://pierwszy-5371c.firebaseio.com",
+                    projectId: "pierwszy-5371c",
+                    storageBucket: "pierwszy-5371c.appspot.com",
+                    messagingSenderId: "230865817750",
+                    appId: "1:230865817750:web:9082da017038523e5732b7",
+                    measurementId: "G-NWM1NZ7RZL"
+                };
+                firebase.initializeApp(firebaseConfig);
+                var db = firebase.firestore();
+
+                fetch("./MOCK_DATA.json")
+                    .then(function(resp) {
+                        return resp.json();
+                    }).then(function(data) {
+                        for(key in data){
+                            for(property in data[key]){
+                                let tag = document.createElement("p")
+                                let text = document.createTextNode(`${property}: ${data[key][property]}`)
+                                tag.appendChild(text)
+                                let element = document.getElementById("a")
+                                element.appendChild(tag)
+                            }
+                        }
+                    })
+                    function saveThis() {
+                        fetch("./MOCK_DATA.json")
+                            .then(function(resp) {
+                            return resp.json();
+                    }).then(function(data) {
+                            for(book in data) {
+                                db.collection("książki").add({
+                                tytulKsiazki: data[book].tytulKsiazki,
+                                imieAutora: data[book].imieAutora,
+                                nazwiskoAutora: data[book].nazwiskoAutora,
+                                gatunekLiteracki: data[book].gatunekLiteracki,
+                                rokWydania: Number(data[book].rokWydania),
+                                ISBN: Number(data[book].ISBN)
+                            })
+                            }
+                            })
+                        }
+
+
+        </script>
+    </body>  
